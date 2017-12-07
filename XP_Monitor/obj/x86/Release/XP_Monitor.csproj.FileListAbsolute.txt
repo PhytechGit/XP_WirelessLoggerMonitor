@@ -1,0 +1,14 @@
+C:\Users\Yifat Sternberg\AppData\Local\Temporary Projects\XP_Monitor\bin\Release\XP_Monitor.exe
+C:\Users\Yifat Sternberg\AppData\Local\Temporary Projects\XP_Monitor\bin\Release\XP_Monitor.pdb
+C:\Users\Yifat Sternberg\AppData\Local\Temporary Projects\XP_Monitor\obj\x86\Release\XP_Monitor.Properties.Resources.resources
+C:\Users\Yifat Sternberg\AppData\Local\Temporary Projects\XP_Monitor\obj\x86\Release\XP_Monitor.csproj.GenerateResource.Cache
+C:\Users\Yifat Sternberg\AppData\Local\Temporary Projects\XP_Monitor\obj\x86\Release\XP_Monitor.exe
+C:\Users\Yifat Sternberg\AppData\Local\Temporary Projects\XP_Monitor\obj\x86\Release\XP_Monitor.pdb
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\obj\x86\Release\XP_Monitor.Properties.Resources.resources
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\obj\x86\Release\XP_Monitor.csproj.GenerateResource.Cache
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\obj\x86\Release\XP_Monitor.Form1.resources
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\bin\Release\XP_WL_Logger_Monitor.exe
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\bin\Release\XP_WL_Logger_Monitor.pdb
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\obj\x86\Release\XP_WL_Logger_Monitor.exe
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\obj\x86\Release\XP_WL_Logger_Monitor.pdb
+C:\Users\Yifat Sternberg\documents\visual studio 2010\Projects\XP_Monitor\XP_Monitor\obj\x86\Release\XP_Monitor.csprojResolveAssemblyReference.cache

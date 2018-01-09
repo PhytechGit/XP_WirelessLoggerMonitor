@@ -68,6 +68,9 @@ using System.Windows.Forms;
  *26/11/2017    1.0.2.28    change in func generate ID - different answer. parseit differently.
  *03/12/2017    1.0.2.29    1. SendLoggerInfo - send logger parameters to server instead via zoho.
  *                          2. re-set phytech icon to app in this development environment
+ *21/12/2017    1.0.2.30    burn logger programs via batch file "burn_logger.bat". use function BurnLogger1.                           
+ *24/12/2017    1.0.2.31    burn logger using different program - "atprogram.exe" - part of atmel studio.
+ *                          get the program path from registry.
 */
 
 namespace XP_Monitor

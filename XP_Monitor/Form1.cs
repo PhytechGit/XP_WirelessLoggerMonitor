@@ -19,6 +19,7 @@ using System.Drawing.Printing;
 using System.Drawing.Imaging;
 //using QRCoder;
 using System.Timers;
+using Microsoft.Win32;
 
 
 namespace XP_Monitor
@@ -1525,6 +1526,7 @@ namespace XP_Monitor
              //SetTimer();
          }
 
+        //use avrdude.exe
          private void BurnLogger(string args)
          {
              string avrdudepath = "C:\\phytechburn\\avrdude\\";
@@ -1535,7 +1537,7 @@ namespace XP_Monitor
                  Process p = new Process();
 
                  //writing atmega flash & eeprom...
-                 p.StartInfo.FileName = avrdudepath + "avrdude.exe";//filePath of the application
+                 p.StartInfo.FileName = avrdudepath + "avrdude.exe";//filePath of the application                 
                  //p.StartInfo.Arguments =  "-p m644p -c avrispmkII -P usb -U hfuse:w:0xDF:m -U lfuse:w:0xDF:m";
                  p.StartInfo.Arguments = args;// "-p m644p -c avrispmkII -P usb -U flash:w:" + loggerFile2Burn.Text + ":i -U eeprom:w:" + LoggerEep2Burn.Text + ":i";
 
@@ -1573,18 +1575,133 @@ namespace XP_Monitor
                  AddText(richTextBox1, e.Message);
              }
          }
-
-         private void burnLgrBtn_Click(object sender, EventArgs e)
+        //use atprogram.exe
+         private int BurnLogger2()
          {
+             //string avrdudepath = "C:\\phytechburn\\avrdude\\";
+             string line;
+             int exitCode = 1;
+
+             // The name of the key must include a valid root.
+            const string userRoot = "HKEY_CURRENT_USER";
+            const string subkey = "Software\\Atmel\\AtmelStudio\\7.0_Config";
+            const string keyName = userRoot + "\\" + subkey;
+        
+            string path = (string)Registry.GetValue(keyName, "InstallDir", "Empty");
+           
+             try
+             {
+                 // writing flash logger...
+                 Process p = new Process();
+
+                 //writing atmega flash & eeprom...
+                 p.StartInfo.FileName = path + "\\atbackend\\atprogram.exe";//filePath of the application                 
+                 //p.StartInfo.Arguments =  "-p m644p -c avrispmkII -P usb -U hfuse:w:0xDF:m -U lfuse:w:0xDF:m";
+                 p.StartInfo.Arguments = string.Format("-f -t avrispmk2 -i isp -d atmega644pa -cl 500khz write -fs --values EFDFFF --verify program -fl -f {0} --format hex --verify -c program -ee -f {1} --format hex --verify", loggerFile2Burn.Text, LoggerEep2Burn.Text);
+                  
+                 p.StartInfo.UseShellExecute = false;
+                 p.StartInfo.RedirectStandardOutput = true;
+                 p.StartInfo.RedirectStandardError = true;
+                 p.StartInfo.CreateNoWindow = true;
+                 p.EnableRaisingEvents = true;
+
+                 p.Start();
+
+                 //p.BeginOutputReadLine();
+
+                 while ((!p.StandardOutput.EndOfStream) || (!p.StandardError.EndOfStream))
+                 {
+                     while ((line = p.StandardOutput.ReadLine()) != null)
+                     //line = p.StandardOutput.ReadLine();
+                     //if (line != null)
+                     {
+                         AddText(richTextBox1, line);
+                         AddText(richTextBox1, "\r\n");
+                     }
+                     line = p.StandardError.ReadLine();
+                     if (line != null)
+                     {
+                         AddText(richTextBox1, line);
+                         AddText(richTextBox1, "\r\n");
+                     }
+                 }
+
+                 p.WaitForExit();
+                 exitCode = p.ExitCode;
+             }
+             catch (Exception e)
+             {
+                 AddText(richTextBox1, e.Message);
+             }
+             return exitCode;
+         }
+
+        //use batch file
+         private int BurnLogger1()
+         {
+             string avrdudepath = "C:\\phytechburn\\avrdude\\";
+             int exitCode = 0;
+             //string line;
+             try
+             {
+                 // writing flash logger...
+                 Process p = new Process();
+
+                 //writing atmega flash & eeprom...
+                 //p.StartInfo.FileName = avrdudepath + "avrdude.exe";//filePath of the application
+                 p.StartInfo.FileName = avrdudepath + "burn_logger.bat";
+
+                 p.StartInfo.UseShellExecute = false;
+                 //p.StartInfo.RedirectStandardOutput = true;
+                 //p.StartInfo.RedirectStandardError = true;
+                 //p.StartInfo.CreateNoWindow = true;
+                 p.EnableRaisingEvents = true;
+
+                 p.Start();
+
+                 //p.BeginOutputReadLine();
+                 /*
+                 while ((!p.StandardOutput.EndOfStream) || (!p.StandardError.EndOfStream))
+                 {
+                     while ((line = p.StandardOutput.ReadLine()) != null)
+                     //line = p.StandardOutput.ReadLine();
+                     //if (line != null)
+                     {
+                         AddText(richTextBox1, line);
+                         AddText(richTextBox1, "\r\n");
+                     }
+                     line = p.StandardError.ReadLine();
+                     if (line != null)
+                     {
+                         AddText(richTextBox1, line);
+                         AddText(richTextBox1, "\r\n");
+                     }
+                 }
+                 */
+                 p.WaitForExit();
+                 exitCode = p.ExitCode;
+             }
+             catch (Exception e)
+             {
+                 AddText(richTextBox1, e.Message);
+             }
+             return  exitCode;
+         }
+         
+        private void burnLgrBtn_Click(object sender, EventArgs e)
+         {
+             int res;
              richTextBox1.Clear();
              burnLgrBtn.Enabled = false;
              burnLgrBtn.BackColor = Color.Orange;
              // programs path
-             AddText(richTextBox1, "Burn Fuse\n");
-             BurnLogger("-p m644p -c avrispmkII -P usb -U hfuse:w:0xDF:m -U lfuse:w:0xEF:m");
-             AddText(richTextBox1, "Burn flash & eeprom\nPlease wait until orange led turn green\n");
-             BurnLogger("-p m644p -c avrispmkII -P usb -U flash:w:" + loggerFile2Burn.Text + ":i -U eeprom:w:" + LoggerEep2Burn.Text + ":i");
-             if ((richTextBox1.Text.Contains("flash verified")) && (richTextBox1.Text.Contains("eeprom verified")))//if got this message means succeedded
+             AddText(richTextBox1, "Burn files\n");
+             //BurnLogger("-p m644p -c avrispmkII -P usb -U hfuse:w:0xDF:m -U lfuse:w:0xEF:m");
+             res = BurnLogger2();
+             //AddText(richTextBox1, "Burn flash & eeprom\nPlease wait until orange led turn green\n");
+             //BurnLogger("-p m644p -c avrispmkII -P usb -U flash:w:" + loggerFile2Burn.Text + ":i -U eeprom:w:" + LoggerEep2Burn.Text + ":i");
+             //BurnLogger1();
+             if (res == 0)//(richTextBox1.Text.Contains("flash verified")) && (richTextBox1.Text.Contains("eeprom verified")))//if got this message means succeedded
              {
                  burnLgrBtn.BackColor = Color.Green;
                  burnLgrBtn.Text = "PASS";

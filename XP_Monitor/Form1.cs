@@ -17,7 +17,6 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Drawing.Imaging;
-//using QRCoder;
 using System.Timers;
 using Microsoft.Win32;
 

@@ -71,6 +71,7 @@ using System.Windows.Forms;
  *21/12/2017    1.0.2.30    burn logger programs via batch file "burn_logger.bat". use function BurnLogger1.                           
  *24/12/2017    1.0.2.31    burn logger using different program - "atprogram.exe" - part of atmel studio.
  *                          get the program path from registry.
+ *28/01/2018    1.0.2.32    replace barcode with QR code. print the right sticker twice.
 */
 
 namespace XP_Monitor
